@@ -24,8 +24,6 @@
 
 	$query = 'SELECT id, name, locationID FROM department';
 
-	$query->bind_param("i", $_POST['department_ID']);
-
 	$result = $conn->query($query);
 	
 	if (!$result) {

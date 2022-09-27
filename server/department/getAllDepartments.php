@@ -6,8 +6,6 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-	$conn = new mysqli($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db);
-
 	if (mysqli_connect_errno()) {
 		
 		$output['status']['code'] = "300";

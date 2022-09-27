@@ -37,7 +37,7 @@ $(document).ready(function () {
                 <td>${item["location"]}</td>
                 <td class = '${item["id"]}_email'>${item["email"]}</td>
                 <td><button type="button" class="btn btn-primary edit_employee ${item["id"]}" >Edit</button></td>
-                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} ></i></button></td>
+                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
               </tr>
           `
           )

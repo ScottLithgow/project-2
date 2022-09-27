@@ -1,13 +1,5 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/getAllDepartments.php
-
-	// remove next two lines for production	
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
 
 	include("../config.php");
@@ -32,9 +24,9 @@
 
 	}	
 
-	// SQL does not accept parameters and so is not prepared
-
 	$query = 'SELECT id, name, locationID FROM department';
+
+	$query->bind_param("i", $_POST['department_ID']);
 
 	$result = $conn->query($query);
 	

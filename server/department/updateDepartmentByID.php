@@ -35,7 +35,7 @@
 
 	}	
 
-	$department = $_POST['department'];
+	$department = trim($_POST['department']);
     $department_ID = $_POST['department_ID'];
     $location_ID = $_POST['location_ID'];
 

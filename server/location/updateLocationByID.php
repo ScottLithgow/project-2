@@ -1,16 +1,6 @@
 <?php
 
-	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
-
-	// remove next two lines for production
-	
-	ini_set('display_errors', 'On');
-	error_reporting(E_ALL);
-
 	$executionStartTime = microtime(true);
-	
-	// this includes the login details
 	
 	include("../config.php");
 
@@ -35,11 +25,8 @@
 
 	}	
 
-	$location = $_POST['location'];
+	$location = trim($_POST['location']);
     $location_ID = $_POST['locationID'];
-
-	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
 	$query = 
         "UPDATE location

@@ -37,7 +37,7 @@ $(document).ready(function () {
                 <td>${item["location"]}</td>
                 <td class = '${item["id"]}_email'>${item["email"]}</td>
                 <td><button type="button" class="btn btn-primary edit_employee ${item["id"]}" >Edit</button></td>
-                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
+                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} ></i></button></td>
               </tr>
           `
           )
@@ -334,15 +334,40 @@ $(document).ready(function () {
         });
 
         $.each(result.data, function (i, select) {
-          
-          $.each(location_array[0], function (e, location) {
+          console.log(select)
+          $.ajax({
+          url: "./server/location/getlocationByID.php",
+          type: "GET",
+          dataType: "json",
+          data: {
+            id: select.locationID
+          },
+
+          success: function (result) {
             $(`.${select.id}_button_location_ID`).append(
               $("<option>", {
-                value: location.locationID,
-                text: location.location,
+                value: select.locationID,
+                text: result.data[0].name,
               })
             );
-          });
+            $.each(location_array[0], function (e, location) {
+              $(`.${select.id}_button_location_ID`).append(
+                $("<option>", {
+                  value: location.locationID,
+                  text: location.location,
+                })
+              );
+            });
+          },
+
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          },
+        });
+          
+          
         });
       },
 
@@ -388,9 +413,10 @@ $(document).ready(function () {
       },
 
       success: function (result) {
+        get_all_departments();
+        getAll();
         $(".confirm_edit_modal").modal("toggle");
         $(".deparment_modal").modal("toggle");
-        getAll();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);

@@ -7,7 +7,7 @@ let filtered_db;
 // Onload function to populate initial page state/ fill data arrays 
 
 $(document).ready(function () {
-  $("#preloader").css("z-index", "0");
+  $("#preloader").css("display", "none");
   const getAll = () => {
     $.ajax({
     url: "./server/getAll.php",
@@ -337,7 +337,7 @@ $(document).ready(function () {
           console.log(select)
           $.ajax({
           url: "./server/location/getlocationByID.php",
-          type: "GET",
+          type: "POST",
           dataType: "json",
           data: {
             id: select.locationID

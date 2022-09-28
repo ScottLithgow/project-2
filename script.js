@@ -4,31 +4,31 @@ let db = [];
 const location_array = [];
 let filtered_db;
 
-// Onload function to populate initial page state/ fill data arrays 
+// Onload function to populate initial page state/ fill data arrays
 
 $(document).ready(function () {
   $("#preloader").css("display", "none");
   const getAll = () => {
     $.ajax({
-    url: "./server/getAll.php",
-    type: "GET",
-    dataType: "json",
-    data: {
-      url: "./getGeoJson.php",
-    },
+      url: "./server/getAll.php",
+      type: "GET",
+      dataType: "json",
+      data: {
+        url: "./getGeoJson.php",
+      },
 
-    success: function (result) {
-      db = [];
-      db.push(result.data);
-      filtered_db = db[0];
+      success: function (result) {
+        db = [];
+        db.push(result.data);
+        filtered_db = db[0];
 
-      $(".tbody").html("");
+        $(".tbody").html("");
 
-      $.each(result.data, function (i, item) {
-        // populate employee info table rows
-        $(".country-form-select").append(
-          $(".tbody").append(
-            `
+        $.each(result.data, function (i, item) {
+          // populate employee info table rows
+          $(".country-form-select").append(
+            $(".tbody").append(
+              `
               <tr>
                 <th scope="row"></th>
                 <td class = '${item["id"]}_fName '>${item["firstName"]}</td>
@@ -40,18 +40,19 @@ $(document).ready(function () {
                 <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
               </tr>
           `
-          )
-        );
-      });
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(errorThrown);
-      console.log(textStatus);
-      console.log(jqXHR);
-    },
-  });}
+            )
+          );
+        });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log(textStatus);
+        console.log(jqXHR);
+      },
+    });
+  };
 
-  getAll()
+  getAll();
 
   $.ajax({
     url: "./server/location/getAllLocations.php",
@@ -104,7 +105,7 @@ $(document).ready(function () {
   let personnelID;
 
   $(".tbody").on("click", ".edit_employee", (e) => {
-    personnelID = e.target.classList[3]
+    personnelID = e.target.classList[3];
 
     $(`.edit_personnel_fName`).val($(`.${personnelID}_fName`).html());
     $(`.edit_personnel_lName`).val($(`.${personnelID}_lName`).html());
@@ -116,7 +117,6 @@ $(document).ready(function () {
   });
 
   $(".edit_personnel").on("click", (e) => {
-
     edit_target_p_firstName = $(`.edit_personnel_fName`).val();
     edit_target_p_lastName = $(`.edit_personnel_lName`).val();
     edit_target_p_email = $(`.edit_personnel_email`).val();
@@ -141,7 +141,7 @@ $(document).ready(function () {
 
       success: function (result) {
         $(".confirm_employee_edit_modal").modal("toggle");
-        getAll()
+        getAll();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
@@ -193,7 +193,6 @@ $(document).ready(function () {
 
   let p_delete_target;
 
-  
   $(".tbody").on("click", ".delete_employee", (e) => {
     $(".delete_personnel_modal").modal("toggle");
     p_delete_target = e.target.id;
@@ -334,40 +333,37 @@ $(document).ready(function () {
         });
 
         $.each(result.data, function (i, select) {
-          console.log(select)
           $.ajax({
-          url: "./server/location/getlocationByID.php",
-          type: "POST",
-          dataType: "json",
-          data: {
-            id: select.locationID
-          },
+            url: "./server/location/getLocationByID.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+              id: select.locationID,
+            },
 
-          success: function (result) {
-            $(`.${select.id}_button_location_ID`).append(
-              $("<option>", {
-                value: select.locationID,
-                text: result.data[0].name,
-              })
-            );
-            $.each(location_array[0], function (e, location) {
+            success: function (result) {
               $(`.${select.id}_button_location_ID`).append(
                 $("<option>", {
-                  value: location.locationID,
-                  text: location.location,
+                  value: select.locationID,
+                  text: result.data[0].name,
                 })
               );
-            });
-          },
+              $.each(location_array[0], function (e, location) {
+                $(`.${select.id}_button_location_ID`).append(
+                  $("<option>", {
+                    value: location.locationID,
+                    text: location.location,
+                  })
+                );
+              });
+            },
 
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log(errorThrown);
-            console.log(textStatus);
-            console.log(jqXHR);
-          },
-        });
-          
-          
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(errorThrown);
+              console.log(textStatus);
+              console.log(jqXHR);
+            },
+          });
         });
       },
 
@@ -430,13 +426,13 @@ $(document).ready(function () {
 
   $(".add_department").click(() => {
     $(".department_modal-input_group").append(
-      ` <div class="input-group">
+      ` <div class="input-group insert_department_text">
                 <input type="text" value="" aria-label="department name" class="form-control insert_department_name">
                 <select class="form-select insert_button_location_ID">
                 
                 </select>
                 <button type="button" class="btn btn-success btn-sm insert_department_button" >A</button>
-                <button type="button" class="btn btn-dark  btn-sm">D</button>
+                <button type="button" class="btn btn-dark remove_add_department btn-sm">D</button>
               </div>`
     );
 
@@ -464,7 +460,7 @@ $(document).ready(function () {
   $(".final_insert_department_confirm").on("click", (e) => {
     $.ajax({
       url: "./server/department/insertDepartment.php",
-      type: "GET",
+      type: "POST",
       dataType: "json",
       data: {
         name: $(".insert_department_name").val(),
@@ -505,10 +501,15 @@ $(document).ready(function () {
       },
 
       success: function (result) {
-        $(".confirm_delete_modal").modal("toggle");
-        $(".deparment_modal").modal("toggle");
-        get_all_departments();
-        getAll();
+        if (result.status.code === "400") {
+          get_all_departments();
+          $(".delete_error").modal("toggle");
+        } else {
+          $(".confirm_delete_modal").modal("toggle");
+          $(".deparment_modal").modal("toggle");
+          get_all_departments();
+          getAll();
+        }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
@@ -531,10 +532,8 @@ $(document).ready(function () {
       data: {},
 
       success: function (result) {
-        console.log(result);
         $(".location_modal-input_group").html("");
         $.each(result.data, function (i, item) {
-          console.log(item);
           $(".location_modal-input_group").append(
             ` <div class="input-group">
                 <input type="text" value="${item.location}" aria-label="location name" class="form-control ${item.locationID}_button_location_name" id=${item.locationID}>
@@ -565,8 +564,6 @@ $(document).ready(function () {
 
   $(".location_modal-input_group").on("click", ".edit_location", (e) => {
     target = e.target.classList[4];
-
-    console.log(target);
 
     edit_target_location_name = $(`.${target}_location_name`).val();
     edit_target_locationID = $(`.${target}_location_name`).attr("id");
@@ -625,7 +622,7 @@ $(document).ready(function () {
   $(".final_insert_location_confirm").on("click", (e) => {
     $.ajax({
       url: "./server/location/insertLocation.php",
-      type: "GET",
+      type: "POST",
       dataType: "json",
       data: {
         name: $(".insert_location_name").val(),
@@ -652,7 +649,6 @@ $(document).ready(function () {
   $(".location_modal-input_group").on("click", ".delete_location", (e) => {
     const target = e.target.classList[4];
     delete_location_target = $(`.${target}_location_name`).attr("id");
-    console.log(delete_location_target);
     $(".confirm_delete_location_modal").modal("toggle");
     $(".location_modal").modal("toggle");
   });
@@ -666,11 +662,16 @@ $(document).ready(function () {
       },
 
       success: function (result) {
-        get_all_locations();
-        get_all_departments();
-        getAll();
-        $(".confirm_delete_location_modal").modal("toggle");
-        $(".location_modal").modal("toggle");
+        if (result.status.code === "400") {
+          get_all_locations();
+          $(".delete_error").modal("toggle");
+        } else {
+          get_all_locations();
+          get_all_departments();
+          getAll();
+          $(".confirm_delete_location_modal").modal("toggle");
+          $(".location_modal").modal("toggle");
+        }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
@@ -680,6 +681,3 @@ $(document).ready(function () {
     });
   });
 });
-
-
-  

@@ -6,8 +6,6 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-	
-
 	if (mysqli_connect_errno()) {
 		
 		$output['status']['code'] = "300";

@@ -505,10 +505,10 @@ $(document).ready(function () {
           get_all_departments();
           $(".delete_error").modal("toggle");
         } else {
-          $(".confirm_delete_modal").modal("toggle");
-          $(".deparment_modal").modal("toggle");
           get_all_departments();
           getAll();
+          $(".confirm_delete_modal").modal("toggle");
+          $(".deparment_modal").modal("toggle");
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {

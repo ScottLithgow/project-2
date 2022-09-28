@@ -22,7 +22,7 @@
 
 	}
 	
-	$select_query = $conn->prepare('SELECT id as locationID FROM department WHERE locationID = ?');
+	$select_query = $conn->prepare('DELETE FROM location WHERE locationID = ?');
 	
 	$select_query->bind_param("i", $_POST['location_ID']);
 

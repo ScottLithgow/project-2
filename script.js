@@ -27,7 +27,7 @@ $(document).ready(function () {
                 <td>${item["location"]}</td>
                 <td class = '${item["id"]}_email'>${item["email"]}</td>
                 <td><button type="button" class="btn btn-primary edit_employee ${item["id"]}" >Edit</button></td>
-                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
+                <td><button type="button" class="btn btn-dark delete_employee ${item["id"]} ">Delete</button></td>
               </tr>
           `
             )
@@ -79,7 +79,6 @@ $(document).ready(function () {
 
   $(".tbody").on("click", ".edit_employee", (e) => {
     personnelID = e.target.classList[3];
-
     $(`.edit_personnel_fName`).val($(`.${personnelID}_fName`).html());
     $(`.edit_personnel_lName`).val($(`.${personnelID}_lName`).html());
     $(`.edit_personnel_email`).val($(`.${personnelID}_email`).html());
@@ -167,8 +166,8 @@ $(document).ready(function () {
   let p_delete_target;
 
   $(".tbody").on("click", ".delete_employee", (e) => {
+    p_delete_target = e.target.classList[3];
     $(".delete_personnel_modal").modal("toggle");
-    p_delete_target = e.target.id;
   });
 
   $(".final_delete_personnel_confirm").on("click", (e) => {
@@ -180,8 +179,8 @@ $(document).ready(function () {
       },
 
       success: function (result) {
-        $(".delete_personnel_modal").modal("toggle");
         getAll();
+        $(".delete_personnel_modal").modal("toggle");
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
@@ -192,26 +191,6 @@ $(document).ready(function () {
   });
 
   // function used to populate table after sorting algorithms
-
-  const table_fill = (array) => {
-    array.forEach((item) => {
-      $(".tbody").append(
-        `
-              <tr>
-                <th scope="row"></th>
-                <td class = '${item["id"]}_fName '>${item["firstName"]}</td>
-                <td class = '${item["id"]}_lName'>${item["lastName"]}</td>
-                <td>${item["department"]}</td>
-                <td>${item["location"]}</td>
-                <td class = '${item["id"]}_email'>${item["email"]}</td>
-                <td><button type="button" class="btn btn-primary edit_employee ${item["id"]}" >Edit</button></td>
-                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
-              </tr>
-        `
-      );
-    });
-  };
-
   // onClick sort function
   let filter = "firstName";
   let filter_direction = "ASC";
@@ -228,20 +207,20 @@ $(document).ready(function () {
 
       success: function (result) {
         $(".tbody").html("");
-        result.data.forEach((item) => {
+        $.each(result.data, function (i, item) {
           $(".tbody").append(
             `
               <tr>
                 <th scope="row"></th>
-                <td class = '${item["id"]}_fName '>${item["firstName"]}</td>
-                <td class = '${item["id"]}_lName'>${item["lastName"]}</td>
+                <td class = '${item["personnelID"]}_fName '>${item["firstName"]}</td>
+                <td class = '${item["personnelID"]}_lName'>${item["lastName"]}</td>
                 <td>${item["department"]}</td>
                 <td>${item["location"]}</td>
-                <td class = '${item["id"]}_email'>${item["email"]}</td>
-                <td><button type="button" class="btn btn-primary edit_employee ${item["id"]}" >Edit</button></td>
-                <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
+                <td class = '${item["personnelID"]}_email'>${item["email"]}</td>
+                <td><button type="button" class="btn btn-primary edit_employee ${item["personnelID"]}" >Edit</button></td>
+                <td><button type="button" class="btn btn-dark delete_employee ${item["personnelID"]} ">Delete</button></td>
               </tr>
-        `
+          `
           );
         });
       },

@@ -1,9 +1,3 @@
-//Data Arrays to be filled onload
-
-let db = [];
-const location_array = [];
-let filtered_db;
-
 // Onload function to populate initial page state/ fill data arrays
 
 $(document).ready(function () {
@@ -18,10 +12,6 @@ $(document).ready(function () {
       },
 
       success: function (result) {
-        db = [];
-        db.push(result.data);
-        filtered_db = db[0];
-
         $(".tbody").html("");
 
         $.each(result.data, function (i, item) {
@@ -53,23 +43,6 @@ $(document).ready(function () {
   };
 
   getAll();
-
-  $.ajax({
-    url: "./server/location/getAllLocations.php",
-    type: "GET",
-    dataType: "json",
-    data: {},
-
-    success: function (result) {
-      //populates location array for use in deparment / location edit modals
-      location_array.push(result.data);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(errorThrown);
-      console.log(textStatus);
-      console.log(jqXHR);
-    },
-  });
 
   const get_all_departments_personnel = (modal) => {
     $.ajax({
@@ -220,8 +193,8 @@ $(document).ready(function () {
 
   // function used to populate table after sorting algorithms
 
-  const table_fill = () => {
-    filtered_db.forEach((item) => {
+  const table_fill = (array) => {
+    array.forEach((item) => {
       $(".tbody").append(
         `
               <tr>
@@ -240,56 +213,24 @@ $(document).ready(function () {
   };
 
   // onClick sort function
+  let filter = "firstName";
+  let filter_direction = "ASC";
 
-  $(".althapbetical_sort").click(() => {
-    filtered_db.sort((a, b) => a.firstName.localeCompare(b.firstName));
-    $(".tbody").html("");
-    table_fill();
-  });
+  const filter_search = () => {
+    $.ajax({
+      url: "./server/getFiltered.php",
+      type: "POST",
+      data: {
+        filter,
+        filter_direction,
+        search: `%${$(".search").val()}%`,
+      },
 
-  $(".reverse_sort").click(() => {
-    filtered_db.sort((a, b) => -1 * a.firstName.localeCompare(b.firstName));
-    $(".tbody").html("");
-    table_fill();
-  });
-
-  $(".department_sort").click(() => {
-    filtered_db.sort((a, b) => a.department.localeCompare(b.department));
-    $(".tbody").html("");
-    table_fill();
-  });
-
-  $(".location_sort").click(() => {
-    filtered_db.sort((a, b) => a.location.localeCompare(b.location));
-    $(".tbody").html("");
-    table_fill();
-  });
-
-  $(".last_name_sort").click(() => {
-    filtered_db.sort((a, b) => a.lastName.localeCompare(b.lastName));
-    $(".tbody").html("");
-    table_fill();
-  });
-
-  $(".email_sort").click(() => {
-    filtered_db.sort((a, b) => a.email.localeCompare(b.email));
-    $(".tbody").html("");
-    table_fill();
-  });
-
-  //modal onClick toggle handlers
-
-  // search filter function
-  $(".search").on("input", (e) => {
-    filtered_db = db[0].filter((o) =>
-      Object.keys(o).some((k) =>
-        o[k].toLowerCase().includes(e.target.value.toLowerCase())
-      )
-    );
-    $(".tbody").html("");
-    filtered_db.forEach((item) => {
-      $(".tbody").append(
-        `
+      success: function (result) {
+        $(".tbody").html("");
+        result.data.forEach((item) => {
+          $(".tbody").append(
+            `
               <tr>
                 <th scope="row"></th>
                 <td class = '${item["id"]}_fName '>${item["firstName"]}</td>
@@ -301,8 +242,57 @@ $(document).ready(function () {
                 <td><button type="button" class="btn btn-dark delete_employee" id = ${item["id"]} >Delete</button></td>
               </tr>
         `
-      );
+          );
+        });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log(textStatus);
+        console.log(jqXHR);
+      },
     });
+  };
+
+  $(".althapbetical_sort").click(() => {
+    filter_direction = "ASC";
+    filter_search();
+  });
+
+  $(".reverse_sort").click(() => {
+    filter_direction = "DESC";
+    filter_search();
+  });
+
+  $(".department_sort").click(() => {
+    filter = "department";
+    filter_search();
+  });
+
+  $(".location_sort").click(() => {
+    filter = "location";
+    filter_search();
+  });
+
+  $(".first_name_sort").click(() => {
+    filter = "firstName";
+    filter_search();
+  });
+
+  $(".last_name_sort").click(() => {
+    filter = "lastName";
+    filter_search();
+  });
+
+  $(".email_sort").click(() => {
+    filter = "email";
+    filter_search();
+  });
+
+  //modal onClick toggle handlers
+
+  // search filter function
+  $(".search").on("input", (e) => {
+    filter_search();
   });
 
   //////
@@ -348,13 +338,28 @@ $(document).ready(function () {
                   text: result.data[0].name,
                 })
               );
-              $.each(location_array[0], function (e, location) {
-                $(`.${select.id}_button_location_ID`).append(
-                  $("<option>", {
-                    value: location.locationID,
-                    text: location.location,
-                  })
-                );
+
+              $.ajax({
+                url: "./server/location/getAllLocations.php",
+                type: "POST",
+                dataType: "json",
+
+                success: function (result) {
+                  $.each(result.data, function (e, location) {
+                    $(`.${select.id}_button_location_ID`).append(
+                      $("<option>", {
+                        value: location.locationID,
+                        text: location.location,
+                      })
+                    );
+                  });
+                },
+
+                error: function (jqXHR, textStatus, errorThrown) {
+                  console.log(errorThrown);
+                  console.log(textStatus);
+                  console.log(jqXHR);
+                },
               });
             },
 
@@ -436,13 +441,27 @@ $(document).ready(function () {
               </div>`
     );
 
-    $.each(location_array[0], function (e, location) {
-      $(`.insert_button_location_ID`).append(
-        $("<option>", {
-          value: location.locationID,
-          text: location.location,
-        })
-      );
+    $.ajax({
+      url: "./server/location/getAllLocations.php",
+      type: "POST",
+      dataType: "json",
+
+      success: function (result) {
+        $.each(result.data, function (e, location) {
+          $(`.insert_button_location_ID`).append(
+            $("<option>", {
+              value: location.locationID,
+              text: location.location,
+            })
+          );
+        });
+      },
+
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log(textStatus);
+        console.log(jqXHR);
+      },
     });
   });
 

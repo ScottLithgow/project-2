@@ -31,7 +31,7 @@
 
 	}
 	
-	$select_query = $conn->prepare('DELETE FROM department WHERE departmentID = ?');
+	$select_query = $conn->prepare('SELECT id as personnelID FROM personnel WHERE departmentID = ?');
 	
 	$select_query->bind_param("i", $_REQUEST['department_ID']);
 

@@ -6,15 +6,6 @@
 
 	header('Content-Type: application/json; charset=UTF-8');
 
-	$cd_host= getenv('cd_host');
-	$cd_user= getenv('cd_user');
-	$cd_password= getenv('cd_password');
-	$cd_dbname= getenv('cd_dbname');
-	$cd_port= getenv('cd_port');
-	$cd_socket= getenv('cd_socket');
-
-	$conn = new mysqli($cd_host, $cd_user, $cd_password, $cd_dbname, $cd_port, $cd_socket);
-
 	if (mysqli_connect_errno()) {
 		
 		$output['status']['code'] = "300";
@@ -76,7 +67,6 @@
 
 		exit;
     }
-
 
 	$delete_query = $conn->prepare('DELETE FROM department WHERE id = ?');
 	

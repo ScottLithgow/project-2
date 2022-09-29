@@ -6,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Directory</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Roboto&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href = './style.css'/>
 </head>
 <body>
     <!--Nav Bar-->
     <nav class="navbar navbar-dark bg-dark navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Company Directory</a>
+            <span class="navbar-brand">Company Directory</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -74,24 +79,25 @@
     </nav>
 
     <!--Employee data table-->
-
-    <table class="table">
-        <thead>
-            <tr>
-            <th scope="row"></th>
-            <th scope="col"><a class = 'first_name_sort'>First Name</a></th>
-            <th scope="col"><a class = 'last_name_sort'>Last Name</a></th>
-            <th scope="col"><a class = 'department_sort'>Department</a></th>
-            <th scope="col"><a class = 'location_sort'>Location</a></th>
-            <th scope="col"><a class = 'email_sort'>Email</a></th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-            </tr>
-        </thead>
-        
-        <tbody class = 'tbody'>
-        </tbody>
-    </table>
+    <div class="table-responsive"> 
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="row"></th>
+                <th scope="col"><a class = 'first_name_sort'>First Name</a></th>
+                <th scope="col"><a class = 'last_name_sort'>Last Name</a></th>
+                <th scope="col"><a class = 'department_sort'>Department</a></th>
+                <th scope="col"><a class = 'location_sort'>Location</a></th>
+                <th scope="col"><a class = 'email_sort'>Email</a></th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            
+            <tbody class = 'tbody'>
+            </tbody>
+        </table>
+    </div>
 
     <!--Insert employee modal form-->
 
@@ -248,7 +254,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success add_department">Add</button>
+                <button type="button" class="btn btn-success add_department">New</button>
             </div>
             </div>
         </div>
@@ -338,7 +344,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success add_department">Add</button>
+                <button type="button" class="btn btn-success add_department">New</button>
             </div>
             </div>
         </div>

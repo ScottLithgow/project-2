@@ -295,7 +295,6 @@ $(document).ready(function () {
                 
                 </select>
                 <button type="button" class="btn btn-primary edit_department btn-sm ${item.id}_button" >U</button>
-                  <option></option>
                 <button type="button" class="btn btn-dark btn-sm delete_department ${item.id}_button">D</button>
               </div>`
           );

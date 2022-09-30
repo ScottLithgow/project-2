@@ -23,10 +23,10 @@ $(document).ready(function () {
                 <th scope="row"></th>
                 <td class = '${item["id"]}_fName '>${item["firstName"]}</td>
                 <td class = '${item["id"]}_lName'>${item["lastName"]}</td>
-                <td>${item["department"]}</td>
-                <td>${item["location"]}</td>
-                <td class = '${item["id"]}_email'>${item["email"]}</td>
-                <td><button type="button" class="btn btn-primary edit_employee ${item["id"]}" >Edit</button></td>
+                <td class = '${item["id"]}_dName hide'>${item["department"]}</td>
+                <td class = 'hide'>${item["location"]}</td>
+                <td class = '${item["id"]}_email hide'>${item["email"]}</td>
+                <td><button type="button" class="btn btn-primary edit_employee ${item["id"]} ${item["departmentID"]}" >Edit</button></td>
                 <td><button type="button" class="btn btn-dark delete_employee ${item["id"]} ">Delete</button></td>
               </tr>
           `
@@ -44,7 +44,7 @@ $(document).ready(function () {
 
   getAll();
 
-  const get_all_departments_personnel = (modal) => {
+  const get_all_departments_personnel = (modal, id) => {
     $.ajax({
       url: "./server/department/getAllDepartments.php",
       type: "GET",
@@ -52,6 +52,13 @@ $(document).ready(function () {
 
       success: function (result) {
         $(modal).html("");
+
+        $(modal).append(
+          $("<option>", {
+            value: personnel_departmentID,
+            text: $(`.${personnelID}_dName`).html(),
+          })
+        );
 
         $.each(result.data, function (i, select) {
           $(modal).append(
@@ -76,14 +83,16 @@ $(document).ready(function () {
   let edit_target_p_email;
   let edit_target_p_departmentID;
   let personnelID;
+  let personnel_departmentID;
 
   $(".tbody").on("click", ".edit_employee", (e) => {
     personnelID = e.target.classList[3];
+    personnel_departmentID = e.target.classList[4];
     $(`.edit_personnel_fName`).val($(`.${personnelID}_fName`).html());
     $(`.edit_personnel_lName`).val($(`.${personnelID}_lName`).html());
     $(`.edit_personnel_email`).val($(`.${personnelID}_email`).html());
 
-    get_all_departments_personnel(`.edit_personnel_department`);
+    get_all_departments_personnel(`.edit_personnel_department`, personnelID);
 
     $(".edit_personnel_modal").modal("toggle");
   });
@@ -96,6 +105,7 @@ $(document).ready(function () {
 
     $(".confirm_employee_edit_modal").modal("toggle");
     $(".edit_personnel_modal").modal("toggle");
+    console.log($(`.edit_personnel_department`).val());
   });
 
   $(".final_edit_employee_confirm").on("click", (e) => {
@@ -123,14 +133,14 @@ $(document).ready(function () {
     });
   });
 
-  // // insert department modal population
+  // // insert personnel modal population
 
   $(".insert_employee").click(() => {
     get_all_departments_personnel(`.insert_personnel_department`);
     $(".insert_personnel_modal").modal("toggle");
   });
 
-  // // insert deparment submit hadling
+  // // insert personnel submit hadling
 
   $(".add_personnel").on("click", (e) => {
     $(".insert_personnel_modal").modal("toggle");
@@ -161,7 +171,7 @@ $(document).ready(function () {
     });
   });
 
-  // // delete department submit handling
+  // // delete personnel submit handling
 
   let p_delete_target;
 

@@ -288,7 +288,7 @@ $(document).ready(function () {
   ////// Department functions
   //////
 
-  // edit deparment modal population
+  // edit department modal population
   const get_all_departments = () => {
     $.ajax({
       url: "./server/department/getAllDepartments.php",
@@ -370,10 +370,10 @@ $(document).ready(function () {
 
   $(".get_department").click(() => {
     get_all_departments();
-    $(".deparment_modal").modal("toggle");
+    $(".department_modal").modal("toggle");
   });
 
-  // edit deparment submit handling
+  // edit department submit handling
 
   let edit_target_department_name;
   let edit_target_location_ID;
@@ -387,7 +387,7 @@ $(document).ready(function () {
     edit_target_departmentID = $(`.${target}_department_name`).attr("id");
 
     $(".confirm_edit_modal").modal("toggle");
-    $(".deparment_modal").modal("toggle");
+    $(".department_modal").modal("toggle");
   });
 
   $(".final_edit_department_confirm").on("click", (e) => {
@@ -405,7 +405,7 @@ $(document).ready(function () {
         get_all_departments();
         getAll();
         $(".confirm_edit_modal").modal("toggle");
-        $(".deparment_modal").modal("toggle");
+        $(".department_modal").modal("toggle");
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
@@ -453,14 +453,14 @@ $(document).ready(function () {
     });
   });
 
-  // insert deparment submit hadling
+  // insert department submit hadling
 
   $(".department_modal-input_group").on(
     "click",
     ".insert_department_button",
     (e) => {
       $(".confirm_insert_modal").modal("toggle");
-      $(".deparment_modal").modal("toggle");
+      $(".department_modal").modal("toggle");
     }
   );
 
@@ -477,7 +477,7 @@ $(document).ready(function () {
       success: function (result) {
         get_all_departments();
         $(".confirm_insert_modal").modal("toggle");
-        $(".deparment_modal").modal("toggle");
+        $(".department_modal").modal("toggle");
         getAll();
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -496,7 +496,7 @@ $(document).ready(function () {
     const target = e.target.classList[4];
     delete_target = $(`.${target}_department_name`).attr("id");
     $(".confirm_delete_modal").modal("toggle");
-    $(".deparment_modal").modal("toggle");
+    $(".department_modal").modal("toggle");
   });
 
   $(".final_delete_department_confirm").on("click", (e) => {
@@ -515,7 +515,7 @@ $(document).ready(function () {
           get_all_departments();
           getAll();
           $(".confirm_delete_modal").modal("toggle");
-          $(".deparment_modal").modal("toggle");
+          $(".department_modal").modal("toggle");
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {

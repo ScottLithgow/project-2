@@ -224,9 +224,9 @@ $(document).ready(function () {
                 <th scope="row"></th>
                 <td class = '${item["personnelID"]}_fName '>${item["firstName"]}</td>
                 <td class = '${item["personnelID"]}_lName'>${item["lastName"]}</td>
-                <td>${item["department"]}</td>
-                <td>${item["location"]}</td>
-                <td class = '${item["personnelID"]}_email'>${item["email"]}</td>
+                <td class = 'hide'>${item["department"]}</td>
+                <td class = 'hide'>${item["location"]}</td>
+                <td class = '${item["personnelID"]}_email hide'>${item["email"]}</td>
                 <td><button type="button" class="btn btn-primary edit_employee ${item["personnelID"]}" >Edit</button></td>
                 <td><button type="button" class="btn btn-dark delete_employee ${item["personnelID"]} ">Delete</button></td>
               </tr>

@@ -15,15 +15,12 @@ a {
     color: black;
 }
 
-a:hover, a:active {
-    color: darkgray;
+.large {
+  min-width: 25em; 
 }
 
-.center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+a:hover, a:active {
+    color: darkgray;
 }
 
 .br {
@@ -32,6 +29,15 @@ a:hover, a:active {
 .w80 {
    width: 80%;
 }
+
+#preloader {
+ height: 100%;
+ width: 100%;
+ position: absolute;
+ left: 0;
+ top: 0;
+}
+
 .card {
   border: 2px solid #fff;
   box-shadow:0px 0px 10px 0 #a9a9a9;

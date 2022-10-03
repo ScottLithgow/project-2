@@ -22,7 +22,7 @@
 
 	}
 	
-	$select_query = $conn->prepare('SELECT id as personnelID FROM personnel WHERE departmentID = ?');
+	$select_query = $conn->prepare('SELECT count(id) as pc FROM personnel WHERE departmentID = ?');
 	
 	$select_query->bind_param("i", $_REQUEST['department_ID']);
 
@@ -45,16 +45,9 @@
 
     }
 
+	$data = mysqli_fetch_assoc($result);
 
-   	$data = [];
-
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($data, $row);
-
-    }
-
-    if (sizeof($data) !== 0) {
+    if ($data['pc'] != 0) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
@@ -63,7 +56,7 @@
 
 		mysqli_close($conn);
 
-		echo json_encode($output); 
+		echo json_encode($output);
 
 		exit;
     }

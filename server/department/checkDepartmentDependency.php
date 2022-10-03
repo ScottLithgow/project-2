@@ -4,7 +4,7 @@
 
 	include("../config.php");
 
-	header('Content-Type: application/json; charset=UTF-8');
+	header('Content-Type: application/json; charset=UTF-8');;
 
 	if (mysqli_connect_errno()) {
 		
@@ -22,9 +22,9 @@
 
 	}
 	
-	$select_query = $conn->prepare('SELECT count(id) as pc FROM department WHERE locationID = ?');
+	$select_query = $conn->prepare('SELECT count(id) as pc FROM personnel WHERE departmentID = ?');
 	
-	$select_query->bind_param("i", $_REQUEST['location_ID']);
+	$select_query->bind_param("i", $_REQUEST['department_ID']);
 
 	$select_query->execute();
 	
@@ -51,7 +51,7 @@
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
-		$output['status']['description'] = "Location has dependencies, so cannot be deleted.";	
+		$output['status']['description'] = "Department has dependencies, so cannot be deleted.";	
 		$output['data'] = [];
 
 		mysqli_close($conn);
@@ -60,27 +60,6 @@
 
 		exit;
     }
-
-	$query = $conn->prepare('DELETE FROM location WHERE id = ?');
-	
-	$query->bind_param("i", $_POST['location_ID']);
-
-	$query->execute();
-	
-	if (false === $query) {
-
-		$output['status']['code'] = "400";
-		$output['status']['name'] = "executed";
-		$output['status']['description'] = "query failed";	
-		$output['data'] = [];
-
-		mysqli_close($conn);
-
-		echo json_encode($output); 
-
-		exit;
-
-	}
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";

@@ -15,7 +15,7 @@
 </head>
 <body>
     <!--Nav Bar-->
-    <nav class="navbar navbar-dark bg-dark navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md navbar-light bg-light position-sticky top-0">
         <div class="container-fluid">
             <span class="navbar-brand">Company Directory</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,29 +45,18 @@
                     <li><a class="dropdown-item location_sort" href="#">Location</a></li>
                 </ul>
                 </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-p" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Personnel
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown-p">
-                    <li><a class="dropdown-item insert_employee" >Employee</a></li>
-                </ul>
+                
+                <li class="nav-item">
+                    <a class="nav-link insert_employee" aria-current="page" data-bs-toggle="modal" data-bs-target=".insert_personnel_modal" >Employee</a>
                 </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-D" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Department
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown-D">
-                    <li><a class="dropdown-item get_department" >Department</a></li>
-                </ul>
+
+                <li class="nav-item">
+                    <a class="nav-link get_department" aria-current="page" data-bs-toggle="modal" data-bs-target=".department_modal" >Department</a>
                 </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-L" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Location
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item get_location" >Location</a></li>
-                </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link get_location" aria-current="page" data-bs-toggle="modal" data-bs-target=".location_modal" >Location</a>
                 </li>
             </ul>
             <form class="d-flex">
@@ -80,17 +69,14 @@
 
     <!--Employee data table-->
     <div class="table-responsive"> 
-        <table class="table">
+        <table class="table ">
             <thead>
                 <tr>
                 <th scope="row"></th>
-                <th scope="col"><a class = 'first_name_sort'>First Name</a></th>
-                <th scope="col"><a class = 'last_name_sort'>Last Name</a></th>
+                <th scope="col"><a class = 'last_name_sort'>Name</a></th>
                 <th scope="col"><a class = 'department_sort hide'>Department</a></th>
                 <th scope="col"><a class = 'location_sort hide'>Location</a></th>
                 <th scope="col"><a class = 'email_sort hide'>Email</a></th>
-                <th scope="col" class = 'hide'>Edit</th>
-                <th scope="col" class = 'hide'>Delete</th>
                 </tr>
             </thead>
             
@@ -101,114 +87,120 @@
 
     <!--Insert employee modal form-->
 
-    <div class="modal insert_personnel_modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Employee Info</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <span class="input-group-text ">First Name</span>
-                    <input type="text" aria-label="first name" class="form-control insert_p_first_name">
+    <div class="modal insert_personnel_modal fade" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+            <form class = 'insert_personnel_form'>
+                <div class="modal-header">
+                    <h5 class="modal-title">Employee Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text">Last Name</span>
-                    <input type="text" aria-label="last name" class="form-control insert_p_last_name">
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-text ">First Name</span>
+                        <input type="text" aria-label="first name" class="form-control insert_p_first_name">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Last Name</span>
+                        <input type="text" aria-label="last name" class="form-control insert_p_last_name">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">Email</span>
+                        <input type="text" aria-label="email" class="form-control insert_p_email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text ">Department</span>
+                        <select class="form-select insert_personnel_department"></select>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text">Email</span>
-                    <input type="text" aria-label="email" class="form-control insert_p_email">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn add_personnel" data-bs-toggle="modal" data-bs-target="#confirm_insert_personnel_modal">Save</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" data-bs-dismiss="modal">Close</button>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text ">Department</span>
-                    <select class="form-select insert_personnel_department"></select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary add_personnel">Add changes</button>
-            </div>
+            </form>
             </div>
         </div>
     </div>
 
-    <!--Employee confirm isert modal-->
+    <!--Employee confirm insert modal-->
 
-    <div class="modal confirm_insert_personnel_modal center"  tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="confirm_insert_personnel_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Employee</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to add this entry to employee?</p>
+                <div class="modal-header">
+                    Confirm Insert Employee
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_insert_personnel_confirm">Yes</button>
-            </div>
+                <div class="modal-body">
+                    <h3>Are you sure you want to Add?</h3><br/>
+                    <h4><span class="insert_e_lname"></span> <span class="insert_e_fname"></span></h4>
+                    <h4 class="insert_e_email"></h4>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" id="submit_insert_personnel" data-bs-toggle="modal" data-bs-target=".insert_personnel_modal">Save</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target=".insert_personnel_modal">CANCEL</button>
+                </div>
             </div>
         </div>
     </div>
 
 
     <!--Edit employee modal form-->
-    <div class="modal edit_personnel_modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Employee Info</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <span class="input-group-text ">First Name</span>
-                    <input type="text" aria-label="first name" class="form-control edit_personnel_fName">
+    <div class="modal edit_personnel_modal fade" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+            <form class = 'edit_personnel_form'>   
+                <div class="modal-header">
+                    <h5 class="modal-title">Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text ">Last Name</span>
-                    <input type="text" aria-label="last name" class="form-control edit_personnel_lName">
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-text ">First Name</span>
+                        <input type="text" aria-label="first name" class="form-control edit_personnel_fName">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text ">Last Name</span>
+                        <input type="text" aria-label="last name" class="form-control edit_personnel_lName">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text ">Email</span>
+                        <input type="text" aria-label="email" class="form-control edit_personnel_email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text ">Department</span>
+                        <select class="form-select edit_personnel_department"></select>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text ">Email</span>
-                    <input type="text" aria-label="email" class="form-control edit_personnel_email">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" id="submitBtn" data-bs-toggle="modal" data-bs-target="#confirm_employee_submit">Save</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" data-bs-dismiss="modal">CANCEL</button>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-text ">Department</span>
-                    <select class="form-select edit_personnel_department"></select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary edit_personnel">Save changes</button>
-            </div>
+            </form>
             </div>
         </div>
     </div>
 
     <!--employee confirm edit modal -->
 
-    <div class="modal confirm_employee_edit_modal center" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="confirm_employee_submit"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Employee</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to permanently update this entry?</p>
+                
+                <div class="modal-header">
+                    Confirm Submit
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_edit_employee_confirm">Yes</button>
-            </div>
+
+                <div class="modal-body">
+                    <h4><span class="edit_e_lname"></span> <span class="edit_e_fname"></span></h4>
+                    <h4 class="edit_e_email"></h4>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" id="submit_edit_personnel" data-bs-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm myBtn" data-bs-toggle="modal" data-bs-target=".edit_personnel_modal" >CANCEL</button>
+                </div>
             </div>
         </div>
     </div>
@@ -216,21 +208,20 @@
 
     <!--Delete employee modal form-->
 
-    <div class="modal delete_personnel_modal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal delete_personnel_modal fade" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete Employee</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to permanently delete this file</p>
+                    <h4><span class="delete_e_lname"></span> <span class="delete_e_fname"></span></h4>
+                    <h4 class="delete_e_email"></h4>
                 </div>
-            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary final_delete_personnel_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm myBtn final_delete_personnel_confirm" data-bs-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm myBtn" data-bs-dismiss="modal">No</button>
             </div>
             </div>
         </div>
@@ -243,8 +234,9 @@
 
     <!--Department list modal-->
 
-    <div class="modal department_modal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade department_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <form class = 'edit_department_form'>
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Department Info</h5>
@@ -254,51 +246,71 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success add_department">New</button>
+                <button type="button" class="btn btn-outline-secondary add_department" data-bs-toggle="modal" data-bs-target=".add_department_modal">New</button>
             </div>
             </div>
+            </form>
         </div>
     </div>
 
     <!--Department confirm edit modal -->
 
-    <div class="modal confirm_edit_modal center" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Department</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to permanently update this entry?</p>
+    <div class="modal fade confirm_edit_department_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4><span class="edit_d_name"></span></h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary final_edit_department_confirm"  data-bs-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".department_modal">No</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_edit_department_confirm">Yes</button>
-            </div>
-            </div>
+        </div>
+    </div>
+
+    <!--insert Department modal-->
+    <div class="modal fade add_department_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered">
+            <form class = 'insert_department_form'>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add department</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body add_department_modal-input_group">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".confirm_insert_modal">Yes</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".department_modal">No</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
     <!--Department confirm insert modal-->
 
-    <div class="modal confirm_insert_modal center"  tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade confirm_insert_modal"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true" >>
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Insert Employee</h5>
+                <h5 class="modal-title">Insert Department</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to add this entry to deparmtents?</p>
+                <div class="modal-body">
+                    <h4><span class="insert_d_name"></span></h4>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_insert_department_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary final_insert_department_confirm" data-bs-toggle="modal" data-bs-target=".department_modal">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".add_department_modal">No</button>
             </div>
             </div>
         </div>
@@ -306,21 +318,21 @@
 
     <!--Department cofirm delete modal-->
 
-    <div class="modal confirm_delete_modal center"  tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade confirm_delete_modal center"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete Department</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to permently delete this?</p>
+                <div class="modal-body">
+                    <h4><span class="delete_d_name"></span></h4>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_delete_department_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary final_delete_department_confirm" data-bs-toggle="modal" data-bs-target=".department_modal">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target=".department_modal">No</button>
             </div>
             </div>
         </div>
@@ -333,8 +345,9 @@
 
     <!--Location list modal-->
 
-    <div class="modal location_modal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade location_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <form class = 'edit_location_form'>
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Location Info</h5>
@@ -344,51 +357,72 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success add_department">New</button>
+                <button type="button" class="btn btn-outline-secondary add_department" data-bs-toggle="modal" data-bs-target=".add_location_modal">New</button>
             </div>
             </div>
+            </form>
         </div>
     </div>
 
     <!--Location confirm edit modal -->
 
-    <div class="modal confirm_edit_location_modal center" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade confirm_edit_location_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Update Location</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to permanently update this entry?</p>
-                </div>
+                <h4><span class="edit_l_name"></span></h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_edit_location_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary final_edit_location_confirm" data-bs-toggle="modal" data-bs-target=".location_modal">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".location_modal">No</button>
             </div>
             </div>
         </div>
     </div>
 
+    <!--Location insert edit modal -->
+
+    <div class="modal fade add_location_modal " tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered ">
+            <form class = 'insert_location_form'>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add location</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body add_location_modal-input_group large">
+                        <div class="input-group">
+                            <input type="text" value="" aria-label="location name" class="form-control insert_location_name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".confirm_insert_location_modal">Yes</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".location_modal">No</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!--Location confirm insert modal-->
 
-    <div class="modal confirm_insert_location_modal center"  tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade confirm_insert_location_modal"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Insert Location</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to add this entry to locations?</p>
-                </div>
+                <h4><span class="insert_l_name"></span></h4>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_insert_location_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary final_insert_location_confirm" data-bs-toggle="modal" data-bs-target=".location_modal">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".location_modal">No</button>
             </div>
             </div>
         </div>
@@ -396,21 +430,21 @@
 
     <!--Location cofirm delete modal-->
 
-    <div class="modal confirm_delete_location_modal center"  tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade confirm_delete_location_modal"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete Location</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group">
-                    <p>Are you sure you would like to permently delete this?</p>
-                </div>
+            <div class="modal-body">
+                <h4><span class="delete_l_name"></span></h4>
+            </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary final_delete_location_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary final_delete_location_confirm" data-bs-toggle="modal" data-bs-target=".location_modal">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".location_modal">No</button>
             </div>
             </div>
         </div>
@@ -418,8 +452,8 @@
 
     <!--Delete Error modal-->
 
-    <div class="modal delete_error center"  tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade delete_error"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete Error</h5>
@@ -431,7 +465,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
             </div>
             </div>
         </div>
@@ -449,6 +483,9 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+    <!--CDN used, onload time reduced by 800ms -->
+    <script src="https://kit.fontawesome.com/069bc33f56.js" crossorigin="anonymous"></script>
     <script src = './script.js'></script>
 </body>
 </html>

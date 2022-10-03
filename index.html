@@ -61,7 +61,7 @@
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2 search" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                
             </form>
             </div>
         </div>
@@ -70,15 +70,6 @@
     <!--Employee data table-->
     <div class="table-responsive"> 
         <table class="table ">
-            <thead>
-                <tr>
-                <th scope="row"></th>
-                <th scope="col"><a class = 'last_name_sort'>Name</a></th>
-                <th scope="col"><a class = 'department_sort hide'>Department</a></th>
-                <th scope="col"><a class = 'location_sort hide'>Location</a></th>
-                <th scope="col"><a class = 'email_sort hide'>Email</a></th>
-                </tr>
-            </thead>
             
             <tbody class = 'tbody'>
             </tbody>
@@ -92,7 +83,7 @@
             <div class="modal-content shadow-lg">
             <form class = 'insert_personnel_form'>
                 <div class="modal-header">
-                    <h5 class="modal-title">Employee Info</h5>
+                    <h5 class="modal-title">Insert Employee</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -235,11 +226,11 @@
     <!--Department list modal-->
 
     <div class="modal fade department_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <form class = 'edit_department_form'>
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Department Info</h5>
+                <h5 class="modal-title">Departments</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body department_modal-input_group">
@@ -266,7 +257,7 @@
                     <h4><span class="edit_d_name"></span></h4>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary final_edit_department_confirm"  data-bs-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-outline-secondary final_edit_department_confirm"  data-bs-toggle="modal" data-bs-target=".department_modal">Yes</button>
                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".department_modal">No</button>
                 </div>
             </div>
@@ -320,6 +311,7 @@
 
     <div class="modal fade confirm_delete_modal center"  tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
+            <form class = 'delete_department_form'>
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Delete Department</h5>
@@ -331,10 +323,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary final_delete_department_confirm" data-bs-toggle="modal" data-bs-target=".department_modal">Yes</button>
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target=".department_modal">No</button>
+                <button type="button" class="btn btn-outline-secondary final_delete_department_confirm" >Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
             </div>
             </div>
+            </form>
         </div>
     </div>
 
@@ -346,11 +339,11 @@
     <!--Location list modal-->
 
     <div class="modal fade location_modal" tabindex="-1" data-bs-backdrop="false" data-bs-keyboard="false" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <form class = 'edit_location_form'>
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Location Info</h5>
+                <h5 class="modal-title">Locations</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body location_modal-input_group">
@@ -443,8 +436,8 @@
             </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary final_delete_location_confirm" data-bs-toggle="modal" data-bs-target=".location_modal">Yes</button>
-                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".location_modal">No</button>
+                <button type="button" class="btn btn-outline-secondary final_delete_location_confirm">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
             </div>
             </div>
         </div>

@@ -350,7 +350,7 @@ $(document).ready(function () {
                 <button type="button" class="btn btn-outline-secondary edit_department btn-sm ${item.id}_button" data-bs-toggle="modal" data-bs-target=".confirm_edit_department_modal" >
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-sm delete_department ${item.id}_button" data-bs-toggle="modal" data-bs-target=".confirm_delete_modal">
+                <button type="button" class="btn btn-outline-secondary btn-sm delete_department ${item.id}_button" >
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>`
@@ -546,6 +546,32 @@ $(document).ready(function () {
   $(".department_modal-input_group").on("click", ".delete_department", (e) => {
     const target = e.currentTarget.classList[4];
     delete_target = $(`.${target}_department_name`).attr("id");
+
+    $.ajax({
+      url: "./server/department/checkDepartmentDependency.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        department_ID: delete_target,
+      },
+
+      success: function (result) {
+        if (result.status.code === "400") {
+          get_all_departments();
+          $(".delete_error").modal("toggle");
+        } else {
+          $(".confirm_delete_modal").modal("toggle");
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log(textStatus);
+        console.log(jqXHR);
+      },
+    });
+  });
+
+  $(".confirm_delete_modal").on("show.bs.modal", (e) => {
     $.ajax({
       url: "./server/department/getDepartmentByID.php",
       type: "POST",
@@ -567,42 +593,20 @@ $(document).ready(function () {
   $(".final_delete_department_confirm").on("click", (e) => {
     e.preventDefault();
     $.ajax({
-      url: "./server/department/checkDepartmentDependency.php",
+      url: "./server/department/deleteDepartmentByID.php",
       type: "POST",
-      dataType: "json",
       data: {
         department_ID: delete_target,
       },
 
-      success: function (result) {
-        console.log(result);
-        if (result.status.code === "400") {
+      success: function (second_result) {
+        if (second_result.status.code === "400") {
           get_all_departments();
           $(".delete_error").modal("toggle");
         } else {
-          console.log("hello");
-          $.ajax({
-            url: "./server/department/deleteDepartmentByID.php",
-            type: "POST",
-            data: {
-              department_ID: delete_target,
-            },
-
-            success: function (second_result) {
-              if (second_result.status.code === "400") {
-                get_all_departments();
-                $(".delete_error").modal("toggle");
-              } else {
-                get_all_departments();
-                getAll();
-              }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.log(errorThrown);
-              console.log(textStatus);
-              console.log(jqXHR);
-            },
-          });
+          get_all_departments();
+          getAll();
+          $(".confirm_delete_modal").modal("toggle");
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -633,7 +637,7 @@ $(document).ready(function () {
                 <input type="text" value="${item.location}" aria-label="location name" class="form-control ${item.locationID}_button_location_name" id=${item.locationID}>
                 
                 <button type="button" class="btn btn-outline-secondary edit_location btn-sm ${item.locationID}_button" data-bs-toggle="modal" data-bs-target=".confirm_edit_location_modal">${edit}</button>
-                <button type="button" class="btn btn-outline-secondary btn-sm delete_location ${item.locationID}_button" data-bs-toggle="modal" data-bs-target=".confirm_delete_location_modal">${bin}</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm delete_location ${item.locationID}_button">${bin}</button>
               </div>`
           );
         });
@@ -734,11 +738,6 @@ $(document).ready(function () {
   $(".location_modal-input_group").on("click", ".delete_location", (e) => {
     const target = e.currentTarget.classList[4];
     delete_location_target = $(`.${target}_location_name`).attr("id");
-    $(".delete_l_name").text($(`.${target}_location_name`).val());
-  });
-
-  $(".final_delete_location_confirm").on("click", (e) => {
-    e.preventDefault();
     $.ajax({
       url: "./server/location/checkLocationDependency.php",
       type: "POST",
@@ -748,35 +747,57 @@ $(document).ready(function () {
       },
 
       success: function (result) {
-        console.log(result);
         if (result.status.code === "400") {
-          get_all_locations();
           $(".delete_error").modal("toggle");
         } else {
-          $.ajax({
-            url: "./server/location/deleteLocationByID.php",
-            type: "POST",
-            data: {
-              location_ID: delete_location_target,
-            },
+          $(".confirm_delete_location_modal").modal("toggle");
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log(textStatus);
+        console.log(jqXHR);
+      },
+    });
+  });
 
-            success: function (second_result) {
-              if (second_result.status.code === "400") {
-                get_all_locations();
-                get_all_departments();
-                $(".delete_error").modal("toggle");
-              } else {
-                get_all_locations();
-                get_all_departments();
-                getAll();
-              }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.log(errorThrown);
-              console.log(textStatus);
-              console.log(jqXHR);
-            },
-          });
+  $(".confirm_delete_location_modal").on("show.bs.modal", (e) => {
+    $.ajax({
+      url: "./server/location/getLocationByID.php",
+      type: "POST",
+      data: {
+        id: delete_location_target,
+      },
+
+      success: function (result) {
+        $(".delete_l_name").text(result.data[0].name);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown);
+        console.log(textStatus);
+        console.log(jqXHR);
+      },
+    });
+  });
+
+  $(".final_delete_location_confirm").on("click", (e) => {
+    e.preventDefault();
+    $.ajax({
+      url: "./server/location/deleteLocationByID.php",
+      type: "POST",
+      data: {
+        location_ID: delete_location_target,
+      },
+
+      success: function (second_result) {
+        if (second_result.status.code === "400") {
+          get_all_departments();
+          $(".delete_error").modal("toggle");
+        } else {
+          get_all_locations();
+          get_all_departments();
+          getAll();
+          $(".confirm_delete_location_modal").modal("toggle");
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {

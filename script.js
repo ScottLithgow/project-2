@@ -559,6 +559,11 @@ $(document).ready(function () {
         if (result.status.code === "400") {
           get_all_departments();
           $(".delete_error").modal("toggle");
+          $(".delete_fail_name").html(
+            `<p>${$(
+              `.${target}_department_name`
+            ).val()} could not be deleted as it contains dependencies</p>`
+          );
         } else {
           $(".confirm_delete_modal").modal("toggle");
         }
@@ -749,6 +754,11 @@ $(document).ready(function () {
       success: function (result) {
         if (result.status.code === "400") {
           $(".delete_error").modal("toggle");
+          $(".delete_fail_name").html(
+            `<p>${$(
+              `.${target}_location_name`
+            ).val()} could not be deleted as it contains dependencies</p>`
+          );
         } else {
           $(".confirm_delete_location_modal").modal("toggle");
         }

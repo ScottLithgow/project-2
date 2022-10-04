@@ -22,7 +22,7 @@
 
 	}	
 
-	$query = $conn->prepare('SELECT id, name, locationID FROM department WHERE id =  ?');
+	$query = $conn->prepare('SELECT p.lastName, p.firstName, p.email, p.id, d.name as department, d.id as departmentID FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) WHERE p.id = ? ORDER BY p.lastName, p.firstName, d.name');
 
 	$query->bind_param("i", $_POST['id']);
 

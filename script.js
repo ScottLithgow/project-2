@@ -82,17 +82,17 @@ $(document).ready(function () {
     });
   };
 
-  get_all_departments_personnel = (modal) => {
+  get_all_departments_personnel = (modal_select) => {
     $.ajax({
       url: "./server/department/getAllDepartments.php",
       type: "POST",
       dataType: "json",
 
       success: function (result) {
-        const first_option = $(modal).first().val();
+        const first_option = $(modal_select).first().val();
         $.each(result.data, function (i, item) {
           if (item.id !== first_option) {
-            $(modal).append(
+            $(modal_select).append(
               $("<option>", {
                 value: item.id,
                 text: item.name,
@@ -155,6 +155,10 @@ $(document).ready(function () {
   // // insert personnel modal population
 
   $(".insert_personnel_modal").on("show.bs.modal", () => {
+    $(`.insert_p_first_name`).val("");
+    $(`.insert_p_last_name`).val("");
+    $(`.insert_p_email`).val("");
+    $(`.insert_personnel_department`).html("");
     get_all_departments_personnel(`.insert_personnel_department`);
   });
 

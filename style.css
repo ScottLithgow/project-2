@@ -2,6 +2,10 @@ a:hover {
     cursor: pointer;
 }
 
+.input-group-text {
+  width: 8em;
+}
+
 .br {
   border-radius: 8px;  
 }

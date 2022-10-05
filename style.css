@@ -2,33 +2,10 @@ a:hover {
     cursor: pointer;
 }
 
-.input-group-text {
-    width: 8em;
-}
-
-.input-group {
-    margin-bottom: 1em;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
-.modal-content {
-  min-width: 25em; 
-}
-
-a:hover, a:active {
-    color: darkgray;
-}
-
 .br {
   border-radius: 8px;  
 }
-.w80 {
-   width: 80%;
-}
+
 
 #preloader {
  height: 100%;

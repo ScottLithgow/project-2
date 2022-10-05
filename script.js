@@ -3,6 +3,7 @@
 $(document).ready(function () {
   $("#preloader").css("display", "none");
   const edit = '<i class="fa-solid fa-pen-to-square"></i>';
+  const save = '<i class="fa-solid fa-floppy-disk"></i>';
   const bin = '<i class="fa-solid fa-trash"></i>';
   const getAll = () => {
     $.ajax({
@@ -266,7 +267,7 @@ $(document).ready(function () {
                 <td class = '${item["personnelID"]}_email hide'>${item["email"]}</td>
                 <td>
                   <button type="button" class="btn btn-outline-secondary edit_employee ${item["personnelID"]}" data-bs-toggle="modal" data-bs-target=".edit_personnel_modal" >
-                    ${edit}
+                    ${save}
                   </button>
                 </td>
                 <td>
@@ -342,16 +343,16 @@ $(document).ready(function () {
         $(".department_modal-input_group").html("");
         $.each(result.data, function (i, item) {
           $(".department_modal-input_group").append(
-            ` <div class="input-group">
+            ` <div class="input-group mb-3">
                 <input type="text" value="${item.name}" aria-label="department name" class="form-control ${item.id}_button_department_name" id=${item.id}>
                 <select class="form-select ${item.id}_button_location_ID">
                 
                 </select>
-                <button type="button" class="btn btn-outline-secondary edit_department btn-sm ${item.id}_button" data-bs-toggle="modal" data-bs-target=".confirm_edit_department_modal" >
-                  <i class="fa-solid fa-pen-to-square"></i>
+                <button type="button" class="btn btn-outline-secondary edit_department btn-sm ${item.id}_button" >
+                  ${save}
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm delete_department ${item.id}_button" >
-                  <i class="fa-solid fa-trash"></i>
+                  ${bin}
                 </button>
               </div>`
           );
@@ -431,14 +432,17 @@ $(document).ready(function () {
   let edit_target_department;
   let edit_target_location_ID;
 
-  $(".confirm_edit_department_modal").on("show.bs.modal", (e) => {
-    target = e.relatedTarget.classList[4];
+  $(".department_modal-input_group").on("click", ".edit_department", (e) => {
+    target = e.currentTarget.classList[4];
+    console.log(target);
     $(".edit_d_name").text($(`.${target}_department_name`).val());
 
     edit_target_department = $(`.${target}_department_name`).val();
 
     edit_target_departmentID = $(`.${target}_department_name`).attr("id");
     edit_target_location_ID = $(`.${target}_location_ID`).val();
+
+    $(".confirm_edit_department_modal").modal("toggle");
   });
 
   $(".final_edit_department_confirm").on("click", () => {
@@ -459,7 +463,7 @@ $(document).ready(function () {
 
       success: function (result) {
         getAll();
-        $(".department_modal").modal("toggle");
+        get_all_departments();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(errorThrown);
@@ -477,11 +481,11 @@ $(document).ready(function () {
     $(".add_department_modal-input_group").html("");
     $(".add_department_modal-input_group").append(
       ` <div class="input-group insert_department_text">
-                <input type="text" value="" aria-label="department name" class="form-control insert_department_name">
-                <select class="form-select insert_button_location_ID">
-                
-                </select>
-              </div>`
+          <input type="text" value="" aria-label="department name" class="form-control insert_department_name">
+          <select class="form-select insert_button_location_ID">
+          
+          </select>
+        </div>`
     );
 
     $.ajax({
@@ -638,10 +642,10 @@ $(document).ready(function () {
         $(".location_modal-input_group").html("");
         $.each(result.data, function (i, item) {
           $(".location_modal-input_group").append(
-            ` <div class="input-group">
+            ` <div class="input-group mb-3">
                 <input type="text" value="${item.location}" aria-label="location name" class="form-control ${item.locationID}_button_location_name" id=${item.locationID}>
                 
-                <button type="button" class="btn btn-outline-secondary edit_location btn-sm ${item.locationID}_button" data-bs-toggle="modal" data-bs-target=".confirm_edit_location_modal">${edit}</button>
+                <button type="button" class="btn btn-outline-secondary edit_location btn-sm ${item.locationID}_button">${save}</button>
                 <button type="button" class="btn btn-outline-secondary btn-sm delete_location ${item.locationID}_button">${bin}</button>
               </div>`
           );
@@ -670,6 +674,7 @@ $(document).ready(function () {
     edit_target_location_name = $(`.${target}_location_name`).val();
     edit_target_locationID = $(`.${target}_location_name`).attr("id");
     $(".edit_l_name").text(edit_target_location_name);
+    $(".confirm_edit_location_modal").modal("toggle");
   });
 
   $(".final_edit_location_confirm").on("click", (e) => {
@@ -701,10 +706,6 @@ $(document).ready(function () {
 
   // // insert location submit hadling
 
-  $(".location_modal").on("show.bs.modal", () => {
-    get_all_locations();
-  });
-
   $(".confirm_insert_location_modal").on("show.bs.modal", () => {
     $(".insert_l_name").text($(".insert_location_name").val());
   });
@@ -714,6 +715,7 @@ $(document).ready(function () {
   });
 
   $(".insert_location_form").on("submit", (e) => {
+    e.preventDefault();
     $.ajax({
       url: "./server/location/insertLocation.php",
       type: "POST",
@@ -724,8 +726,6 @@ $(document).ready(function () {
 
       success: function (result) {
         get_all_locations();
-        $(".confirm_insert_location_modal").modal("toggle");
-        $(".location_modal").modal("toggle");
         getAll();
       },
       error: function (jqXHR, textStatus, errorThrown) {

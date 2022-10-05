@@ -240,7 +240,7 @@ $(document).ready(function () {
 
   // function used to populate table after sorting algorithms
   // onClick sort function
-  let filter = "firstName";
+  let filter = "lastName";
   let filter_direction = "ASC";
 
   const filter_search = () => {

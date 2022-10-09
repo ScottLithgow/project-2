@@ -120,6 +120,9 @@ $(document).ready(function () {
   $(".edit_personnel_modal").on("show.bs.modal", (e) => {
     personnelID = e.relatedTarget.classList[3];
     get_personnel_department(personnelID);
+  });
+
+  $(".edit_personnel_modal").on("shown.bs.modal", (e) => {
     get_all_departments_personnel(".edit_personnel_department");
   });
 
@@ -271,7 +274,7 @@ $(document).ready(function () {
                 <td class = '${item["personnelID"]}_email hide'>${item["email"]}</td>
                 <td>
                   <button type="button" class="btn btn-outline-secondary edit_employee ${item["personnelID"]}" data-bs-toggle="modal" data-bs-target=".edit_personnel_modal" >
-                    ${save}
+                    ${edit}
                   </button>
                 </td>
                 <td>
